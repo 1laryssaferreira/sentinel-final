@@ -7,7 +7,7 @@ as câmeras, os sensores da casa, o reconhecimento facial e um assistente com
 inteligência artificial, e transforma a situação da casa num **índice de risco
 de 0 a 100%** que reage sozinho quando fica crítico.
 
-> 🎥 **Vídeo pitch (3 min):** _https://youtu.be/wU1JjVLmbos_
+> 🎥 **Vídeo pitch:** _https://youtu.be/wU1JjVLmbos_
 >
 > ⚠️ As chamadas para polícia e bombeiros são **simuladas**: nenhuma ligação real
 > é feita. O acionamento só fica registrado no banco de dados.
