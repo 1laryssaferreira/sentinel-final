@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0A1827">
+  <title>Câmera do celular | Sentinel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=42dot+Sans:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="base.css">
+  <style>
+    body { background: #000; color: var(--texto); min-height: 100dvh; display: flex; flex-direction: column; }
+    .visor { position: relative; flex: 1; min-height: 50dvh; background: #000; overflow: hidden; }
+    .visor video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .visor video.espelhado { transform: scaleX(-1); }
+    .osd-topo {
+      position: absolute; inset: 0 0 auto 0;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: calc(env(safe-area-inset-top, 0px) + .8rem) 1rem 2rem;
+      background: linear-gradient(rgba(0,0,0,.65), transparent);
+      font-size: 12px; color: #E8F0F5;
+    }
+    .estado { display: inline-flex; align-items: center; gap: .45rem; font-size: 13px; padding: .3rem .7rem; border-radius: 999px; background: rgba(8,26,43,.75); border: 1px solid #2A5873; }
+    .estado i { width: 8px; height: 8px; border-radius: 50%; background: var(--texto-3); }
+    .estado[data-tom="ok"] i { background: var(--vermelho); animation: piscar 1.2s infinite; }
+    .estado[data-tom="atencao"] i { background: var(--ambar); }
+    .estado[data-tom="perigo"] i { background: var(--vermelho); }
+    @keyframes piscar { 50% { opacity: .2; } }
+    .ferr { position: absolute; right: 1rem; bottom: 1rem; display: flex; flex-direction: column; gap: .6rem; }
+    .ferr button {
+      width: 48px; height: 48px; border-radius: 12px;
+      border: 1px solid #2A5873; background: rgba(8,26,43,.75); color: #fff;
+      display: grid; place-items: center;
+    }
+    .ferr button[aria-pressed="true"] { background: var(--ambar); color: #241700; border-color: var(--ambar); }
+    .ferr svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .painel {
+      background: #0A1827; border-top: 1px solid #1C2A39;
+      padding: 1.25rem 1.25rem calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
+      display: grid; gap: .9rem;
+    }
+    .painel h1 { font-size: 1.4rem; font-weight: 400; display: flex; align-items: center; gap: .7rem; }
+    .escudo { display: grid; place-items: center; width: 42px; height: 40px; border-radius: 12px; background: #0D2A3B; border: 1px solid #146275; color: var(--ciano); flex: none; }
+    .escudo svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+    .painel p { font-size: var(--t-s); color: var(--texto-3); }
+    .linha { display: flex; gap: .6rem; }
+    input, select {
+      flex: 1; min-height: 52px; padding: .7rem .95rem; border-radius: 12px;
+      border: 1px solid var(--borda); background: var(--campo); font-size: 16px; color: var(--texto);
+    }
+    input::placeholder { color: var(--texto-3); }
+    input:focus, select:focus { outline: none; border-color: var(--ciano); }
+    .botao { min-height: 54px; font-size: 1.1rem; border-radius: 12px; }
+    .botao-perigo { background: var(--vermelho-cartao); color: #FF8DA0; border: 1px solid var(--vermelho); }
+    .info { display: flex; justify-content: space-between; font-size: var(--t-xs); color: var(--texto-3); }
+    .erro { font-size: var(--t-s); color: #FFB1BE !important; background: var(--vermelho-fundo); border: 1px solid rgba(240,86,110,.45); padding: .75rem .9rem; border-radius: 12px; }
+  </style>
+</head>
+<body>
+  <div class="visor">
+    <video id="videoCelular" autoplay muted playsinline></video>
+    <div class="osd-topo">
+      <span class="estado" id="estado" data-tom=""><i></i><span id="estadoTexto">Abrindo câmera…</span></span>
+      <span class="osd" id="relogio"></span>
+    </div>
+    <div class="ferr">
+      <button type="button" id="btnTrocar" aria-label="Trocar câmera" title="Trocar câmera">
+        <svg viewBox="0 0 24 24"><path d="M4 7h13l-3-3M20 17H7l3 3"/></svg>
+      </button>
+      <button type="button" id="btnLanterna" aria-label="Lanterna" title="Lanterna" aria-pressed="false" hidden>
+        <svg viewBox="0 0 24 24"><path d="M8 3h8l-1 6H9zM9 9l1 12h4l1-12"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <section class="painel">
+    <h1><span class="escudo" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3.5 6 7.2v7.4c0 6.4 4.2 11.2 10 13.4 5.8-2.2 10-7 10-13.4V7.2z"/><path d="m11.5 15.8 3.2 3.2 6-6.2"/></svg></span>Câmera do Sentinel</h1>
+    <p id="ajuda">Deixe o celular parado, apontado para a área que você quer vigiar, e ligado na tomada.</p>
+    <p class="erro" id="erro" hidden></p>
+
+    <form id="formCelular" class="painel" style="padding:0;border:0;background:none">
+      <label class="visualmente-oculto" for="nomeCamera">Nome da câmera</label>
+      <input type="text" id="nomeCamera" placeholder="Nome da câmera (ex.: Quintal)" maxlength="40" required autocomplete="off">
+      <div class="linha">
+        <label class="visualmente-oculto" for="qualidade">Qualidade</label>
+        <select id="qualidade">
+          <option value="480">Econômica</option>
+          <option value="720" selected>HD 720p</option>
+          <option value="1080">Full HD</option>
+        </select>
+      </div>
+      <button type="submit" class="botao botao-primario" id="btnConectar" disabled>Começar a transmitir</button>
+    </form>
+    <button type="button" class="botao botao-perigo" id="btnParar" hidden>Parar transmissão</button>
+    <div class="info"><span id="assistindo">Nenhum painel assistindo</span><span id="bateria"></span></div>
+  </section>
+
+  <script src="config.js"></script>
+  <script src="celular.js"></script>
+</body>
+</html>

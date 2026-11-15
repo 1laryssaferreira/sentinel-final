@@ -1,0 +1,42 @@
+{
+  "name": "sentinel-backend",
+  "version": "3.0.0",
+  "description": "Sentinel — central de segurança residencial com câmeras, reconhecimento facial, sensores e assistente com IA (Llama)",
+  "main": "dist/server.js",
+  "scripts": {
+    "test": "node testar-api.js",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "ts-node src/server.ts",
+    "migrate": "ts-node src/migrate.ts",
+    "migrate:prod": "node dist/migrate.js"
+  },
+  "keywords": [],
+  "author": "Gabriel, Davi, Everton e Laryssa — ADS UniFECAF",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.11.0",
+    "socket.io": "^4.8.1",
+    "selfsigned": "^2.4.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^26.4.1",
+    "@types/swagger-ui-express": "^4.1.8",
+    "swagger-ui-express": "^5.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

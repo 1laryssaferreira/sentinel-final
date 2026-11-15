@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071321">
+  <title>Sentinel Security — monitoramento residencial inteligente</title>
+  <meta name="description" content="Tudo o que acontece na sua residência, em um só lugar: câmeras, planta da casa, sensores e um assistente que entende português.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23071321'/%3E%3Cpath d='M16 5 8 8v6c0 5 3.3 8.8 8 10.6 4.7-1.8 8-5.6 8-10.6V8z' fill='none' stroke='%2322D3EE' stroke-width='2'/%3E%3Cpath d='m12.5 15 2.5 2.5 4.5-4.6' fill='none' stroke='%2322D3EE' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=42dot+Sans:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body class="site">
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- Ícones reaproveitados -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-escudo" viewBox="0 0 32 32"><path d="M16 3.5 6 7.2v7.4c0 6.4 4.2 11.2 10 13.4 5.8-2.2 10-7 10-13.4V7.2z"/><path d="m11.5 15.8 3.2 3.2 6-6.2"/></symbol>
+    <symbol id="i-seta" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-diagonal" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+    <symbol id="i-baixo" viewBox="0 0 24 24"><path d="M12 4v15M6 13l6 6 6-6"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><rect x="3" y="7" width="12" height="10" rx="2"/><path d="m15 11 6-3v8l-6-3"/></symbol>
+    <symbol id="i-grade" viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></symbol>
+    <symbol id="i-sino" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m6 12.5 4 4 8-9"/></symbol>
+    <symbol id="i-casa" viewBox="0 0 320 200">
+      <rect width="320" height="200" fill="#9EA39C"/>
+      <rect width="320" height="58" fill="#06101A"/>
+      <path d="M0 0h72L0 46z" fill="#7C959B"/><path d="M320 0h-72l72 46z" fill="#7C959B"/>
+      <path d="M0 46 72 0h14L0 56z" fill="#3B5458"/><path d="M320 46 248 0h-14l86 56z" fill="#3B5458"/>
+      <rect x="108" y="56" width="104" height="104" fill="#C9CCC5"/>
+      <rect x="121" y="66" width="78" height="94" fill="#486B76"/>
+      <rect x="125" y="70" width="33" height="90" fill="#2B4653"/><rect x="162" y="70" width="33" height="90" fill="#2B4653"/>
+      <rect x="131" y="78" width="21" height="66" fill="#476C76"/><rect x="168" y="80" width="21" height="64" fill="#476C76"/>
+      <g fill="#D6D9D3"><rect x="27" y="78" width="60" height="78"/><rect x="236" y="80" width="60" height="78"/></g>
+      <g fill="#4B7480"><rect x="33" y="84" width="22" height="30"/><rect x="59" y="84" width="22" height="30"/><rect x="33" y="118" width="22" height="32"/><rect x="59" y="118" width="22" height="32"/>
+        <rect x="242" y="86" width="22" height="30"/><rect x="268" y="86" width="22" height="30"/><rect x="242" y="120" width="22" height="32"/><rect x="268" y="120" width="22" height="32"/></g>
+      <circle cx="26" cy="178" r="30" fill="#4D705F"/><circle cx="74" cy="180" r="30" fill="#5A7A69"/>
+      <circle cx="300" cy="182" r="38" fill="#3F6656"/><circle cx="276" cy="186" r="24" fill="#5A7A69"/>
+    </symbol>
+  </svg>
+
+  <header class="topo">
+    <div class="topo-interno">
+      <a class="marca" href="#" aria-label="Sentinel, início da página">
+        <span class="marca-escudo" aria-hidden="true"><svg><use href="#i-escudo"/></svg></span>
+        <span class="marca-texto"><span class="marca-nome">Sentinel</span><span class="marca-versao">SECURITY 3</span></span>
+      </a>
+      <nav class="topo-nav" aria-label="Seções">
+        <a href="#plataforma">A plataforma</a>
+        <a href="#recursos">Recursos</a>
+        <a href="#sobre">Sobre nós</a>
+        <a href="login.html">Entrar</a>
+      </nav>
+      <a class="topo-cta" href="cadastro.html">Criar conta <svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></a>
+      <button class="topo-menu" type="button" aria-expanded="false" aria-controls="menuMovel">Menu</button>
+    </div>
+    <nav class="menu-movel" id="menuMovel" hidden aria-label="Menu">
+      <a href="#plataforma">A plataforma</a>
+      <a href="#recursos">Recursos</a>
+      <a href="#sobre">Sobre nós</a>
+      <a href="login.html">Entrar</a>
+      <a href="cadastro.html">Criar conta</a>
+    </nav>
+  </header>
+
+  <main id="conteudo">
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+      <div class="hero-grade">
+        <div class="hero-texto">
+          <p class="sobretitulo sobretitulo-linha">Sentinel Security / Monitoramento inteligente</p>
+          <h1 class="titulo-grande">Proteção começa<br>com <span class="destaque">clareza.</span></h1>
+          <p class="hero-sub">Tudo o que acontece na sua residência, em um só lugar. Acompanhe câmeras, visualize ambientes e tenha mais controle sobre o que importa.</p>
+          <div class="hero-cta">
+            <a class="botao botao-primario botao-grande" href="cadastro.html">Comece agora <svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></a>
+            <a class="link-sublinhado" href="#plataforma">Conhecer a plataforma <svg class="ico" aria-hidden="true"><use href="#i-diagonal"/></svg></a>
+          </div>
+          <p class="hero-nota"><svg class="ico" aria-hidden="true"><use href="#i-escudo"/></svg>Seu espaço. Sua visão. Suas decisões.</p>
+        </div>
+
+        <figure class="vitrine" aria-label="Prévia do painel Sentinel">
+          <div class="vitrine-topo">
+            <svg class="ico" aria-hidden="true"><use href="#i-escudo"/></svg>
+            <span>Sentinel / Visão geral</span>
+          </div>
+          <div class="vitrine-corpo">
+            <p class="vitrine-rotulo">Painel residencial</p>
+            <p class="vitrine-titulo">Minha residência</p>
+            <div class="vitrine-grade">
+              <div class="vitrine-cam">
+                <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Câmera da entrada da casa"><use href="#i-casa"/></svg>
+                <span class="vitrine-aovivo"><i></i>Entrada · ao vivo</span>
+              </div>
+              <div class="vitrine-info">
+                <div class="mini"><span class="mini-rotulo"><svg class="ico" aria-hidden="true"><use href="#i-camera"/></svg>Câmeras</span><span class="mini-valor"><b>03</b> disponíveis</span></div>
+                <div class="mini"><span class="mini-rotulo"><svg class="ico" aria-hidden="true"><use href="#i-grade"/></svg>Ambientes</span><span class="mini-valor">Visão integrada</span></div>
+                <div class="mini"><span class="mini-rotulo"><svg class="ico" aria-hidden="true"><use href="#i-sino"/></svg>Atividades</span><span class="mini-valor">Acompanhamento</span></div>
+              </div>
+            </div>
+            <p class="vitrine-legenda"><i></i>Interface de demonstração</p>
+          </div>
+          <div class="vitrine-selo">
+            <span class="selo-check"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg></span>
+            <span><b>Visão centralizada</b><small>Informação ao seu alcance</small></span>
+          </div>
+        </figure>
+      </div>
+      <div class="hero-rodape">
+        <span>Tecnologia a serviço da tranquilidade</span>
+        <a href="#plataforma">Explore o Sentinel <svg class="ico" aria-hidden="true"><use href="#i-baixo"/></svg></a>
+      </div>
+    </section>
+
+    <!-- ===================== 01 PLATAFORMA ===================== -->
+    <section class="faixa faixa-alt" id="plataforma">
+      <div class="faixa-interna">
+        <p class="sobretitulo">01 / A plataforma</p>
+        <div class="plataforma-corpo">
+          <h2 class="titulo-grande">Uma nova perspectiva<br>sobre a <span class="destaque">segurança da sua casa.</span></h2>
+          <p class="texto-largo">O Sentinel reúne as principais informações da sua residência em uma experiência organizada, intuitiva e fácil de acompanhar. Menos telas desconectadas. Mais compreensão do ambiente.</p>
+        </div>
+        <a class="link-sublinhado link-direita" href="#recursos">Veja o que você pode fazer</a>
+      </div>
+    </section>
+
+    <!-- ===================== 02 RECURSOS ===================== -->
+    <section class="faixa" id="recursos">
+      <div class="faixa-interna">
+        <p class="sobretitulo">02 / O que você encontra</p>
+        <div class="recursos-cabeca">
+          <h2 class="titulo-grande">Tudo conversa.<br><span class="destaque">Você acompanha.</span></h2>
+          <p>Recursos pensados para facilitar a visualização da sua residência, sem complicar o que deveria ser simples.</p>
+        </div>
+        <div class="recursos-grade">
+          <article class="recurso">
+            <span class="recurso-icone" aria-hidden="true"><svg class="ico"><use href="#i-camera"/></svg></span>
+            <h3>Câmeras em um só lugar</h3>
+            <p>A webcam do computador e qualquer celular viram câmeras ao vivo, com reconhecimento de rosto e detecção de movimento.</p>
+            <span class="recurso-tag">Visualização</span>
+          </article>
+          <article class="recurso">
+            <span class="recurso-icone" aria-hidden="true"><svg class="ico"><use href="#i-grade"/></svg></span>
+            <h3>Visão do ambiente</h3>
+            <p>Entenda a disposição dos espaços e veja na planta, num relance, qual porta, janela ou sensor pede atenção.</p>
+            <span class="recurso-tag">Organização</span>
+          </article>
+          <article class="recurso">
+            <span class="recurso-icone" aria-hidden="true"><svg class="ico"><use href="#i-sino"/></svg></span>
+            <h3>Eventos e assistente</h3>
+            <p>Acompanhe o histórico em tempo real e converse com o assistente para consultar a casa ou pedir uma ação.</p>
+            <span class="recurso-tag">Acompanhamento</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 03 QUEM SOMOS ===================== -->
+    <section class="faixa faixa-alt" id="sobre">
+      <div class="faixa-interna sobre">
+        <figure class="radar" aria-hidden="true">
+          <span class="radar-topo">Monitorar · Compreender · Proteger</span>
+          <svg viewBox="0 0 400 400">
+            <circle cx="200" cy="200" r="190"/><circle cx="200" cy="200" r="130"/><circle cx="200" cy="200" r="66"/>
+            <g transform="translate(176 172) scale(1.5)"><path d="M16 3.5 6 7.2v7.4c0 6.4 4.2 11.2 10 13.4 5.8-2.2 10-7 10-13.4V7.2z"/><path d="m11.5 15.8 3.2 3.2 6-6.2"/></g>
+          </svg>
+          <span class="radar-base">Sentinel Security</span>
+        </figure>
+        <div class="sobre-texto">
+          <p class="sobretitulo">03 / Quem somos</p>
+          <h2 class="titulo-grande">Tecnologia pensada<br>para <span class="destaque">cuidar do essencial.</span></h2>
+          <p>A Sentinel Security é a empresa fictícia por trás desta proposta acadêmica de monitoramento residencial. Nosso conceito parte de uma ideia simples: oferecer uma experiência em que informação, praticidade e controle caminham juntos.</p>
+          <p>O resultado é uma plataforma demonstrativa feita para aproximar as pessoas da tecnologia de segurança.</p>
+          <a class="link-sublinhado" href="login.html">Conhecer por dentro</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CTA ===================== -->
+    <section class="cta">
+      <div class="faixa-interna cta-interna">
+        <div>
+          <p class="sobretitulo">Pronto para conhecer?</p>
+          <h2 class="titulo-grande">Sua casa merece<br>uma visão melhor.</h2>
+          <p>Explore a experiência Sentinel, criada para demonstrar uma maneira mais simples de acompanhar sua residência.</p>
+        </div>
+        <a class="botao botao-primario botao-grande" href="cadastro.html">Criar minha conta</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-interno">
+      <a class="marca marca-pequena" href="#" aria-label="Sentinel">
+        <span class="marca-escudo" aria-hidden="true"><svg><use href="#i-escudo"/></svg></span>
+        <span class="marca-nome">Sentinel</span>
+      </a>
+      <p>Uma experiência mais clara de monitoramento residencial.</p>
+      <a href="#" class="rodape-topo">Voltar ao topo</a>
+    </div>
+    <p class="rodape-legal">© <span id="anoAtual"></span> Sentinel Security · Projeto acadêmico de Análise e Desenvolvimento de Sistemas</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="site.js"></script>
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#081A2B">
+  <title>Central de segurança | Sentinel</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23071321'/%3E%3Cpath d='M16 5 8 8v6c0 5 3.3 8.8 8 10.6 4.7-1.8 8-5.6 8-10.6V8z' fill='none' stroke='%2322D3EE' stroke-width='2'/%3E%3Cpath d='m12.5 15 2.5 2.5 4.5-4.6' fill='none' stroke='%2322D3EE' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=42dot+Sans:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="painel.css">
+  <script defer src="vendor/face-api.min.js"></script>
+  <script defer src="vendor/qrcode.js"></script>
+</head>
+<body class="dashboard-page">
+  <!-- ===================== ÍCONES E ILUSTRAÇÕES ===================== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-escudo" viewBox="0 0 32 32"><path d="M16 3.5 6 7.2v7.4c0 6.4 4.2 11.2 10 13.4 5.8-2.2 10-7 10-13.4V7.2z"/><path d="m11.5 15.8 3.2 3.2 6-6.2"/></symbol>
+    <symbol id="i-sair" viewBox="0 0 24 24"><path d="M10 4H5v16h5M14 8l4 4-4 4M18 12H9"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><rect x="3" y="7" width="12" height="10" rx="2"/><path d="m15 11 6-3v8l-6-3"/></symbol>
+    <symbol id="i-recarregar" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.3-5.7M4 4v5h5"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h11v8H8l-4 3z"/><path d="M15 9h5v8l-3-2.5h-6V13"/></symbol>
+    <symbol id="i-enviar" viewBox="0 0 24 24"><path d="M21 3 3 10.5l7 2.5 2.5 7z"/><path d="m10 13 4.5-4.5"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M9 7v10l8-5z"/></symbol>
+    <symbol id="i-celular" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 17.5h2"/></symbol>
+    <symbol id="i-mais" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+
+    <symbol id="ilu-casa" viewBox="0 0 320 200">
+      <rect width="320" height="200" fill="#9EA39C"/>
+      <rect width="320" height="58" fill="#06101A"/>
+      <path d="M0 0h72L0 46z" fill="#7C959B"/><path d="M320 0h-72l72 46z" fill="#7C959B"/>
+      <path d="M0 46 72 0h14L0 56z" fill="#3B5458"/><path d="M320 46 248 0h-14l86 56z" fill="#3B5458"/>
+      <rect x="108" y="56" width="104" height="104" fill="#C9CCC5"/>
+      <rect x="121" y="66" width="78" height="94" fill="#486B76"/>
+      <rect x="125" y="70" width="33" height="90" fill="#2B4653"/><rect x="162" y="70" width="33" height="90" fill="#2B4653"/>
+      <rect x="131" y="78" width="21" height="66" fill="#476C76"/><rect x="168" y="80" width="21" height="64" fill="#476C76"/>
+      <g fill="#D6D9D3"><rect x="27" y="78" width="60" height="78"/><rect x="236" y="80" width="60" height="78"/></g>
+      <g fill="#4B7480"><rect x="33" y="84" width="22" height="30"/><rect x="59" y="84" width="22" height="30"/><rect x="33" y="118" width="22" height="32"/><rect x="59" y="118" width="22" height="32"/>
+        <rect x="242" y="86" width="22" height="30"/><rect x="268" y="86" width="22" height="30"/><rect x="242" y="120" width="22" height="32"/><rect x="268" y="120" width="22" height="32"/></g>
+      <circle cx="26" cy="178" r="30" fill="#4D705F"/><circle cx="74" cy="180" r="30" fill="#5A7A69"/>
+      <circle cx="300" cy="182" r="38" fill="#3F6656"/><circle cx="276" cy="186" r="24" fill="#5A7A69"/>
+    </symbol>
+    <symbol id="ilu-sala" viewBox="0 0 320 200">
+      <rect width="320" height="200" fill="#8E9C9F"/>
+      <rect y="150" width="320" height="50" fill="#6C7C82"/>
+      <rect x="40" y="0" width="110" height="78" fill="#C9CCC5"/>
+      <g fill="#4B7480"><rect x="47" y="0" width="45" height="34"/><rect x="98" y="0" width="45" height="34"/><rect x="47" y="40" width="45" height="32"/><rect x="98" y="40" width="45" height="32"/></g>
+      <rect x="198" y="8" width="70" height="44" fill="#C9CCC5"/><rect x="204" y="14" width="58" height="32" fill="#5E7F8A"/>
+      <rect x="92" y="104" width="190" height="62" rx="12" fill="#45606C"/>
+      <rect x="104" y="88" width="78" height="34" rx="10" fill="#587683"/><rect x="190" y="88" width="78" height="34" rx="10" fill="#587683"/>
+      <rect x="80" y="112" width="20" height="58" rx="8" fill="#3E5762"/><rect x="274" y="112" width="20" height="58" rx="8" fill="#3E5762"/>
+    </symbol>
+    <symbol id="ilu-quintal" viewBox="0 0 640 200">
+      <rect width="640" height="200" fill="#A8A099"/>
+      <rect y="150" width="640" height="50" fill="#948C85"/>
+      <g fill="#8A827B"><rect y="60" width="640" height="8"/><rect y="108" width="640" height="8"/></g>
+      <g fill="#7E766F"><rect x="150" y="40" width="8" height="115"/><rect x="300" y="40" width="8" height="115"/><rect x="450" y="40" width="8" height="115"/></g>
+      <g fill="#6B4D3D"><rect x="96" y="40" width="14" height="120"/><rect x="560" y="40" width="14" height="120"/></g>
+      <g fill="#4E7A66"><circle cx="60" cy="10" r="70"/><circle cx="150" cy="-10" r="56"/><circle cx="600" cy="20" r="70"/><circle cx="520" cy="-14" r="54"/></g>
+      <g fill="#3F6656"><circle cx="20" cy="40" r="44"/><circle cx="640" cy="50" r="44"/></g>
+    </symbol>
+  </svg>
+
+  <!-- ===================== TOPO ===================== -->
+  <header class="barra">
+    <a class="marca" href="index.html" title="Ir para o site">
+      <span class="marca-escudo" aria-hidden="true"><svg><use href="#i-escudo"/></svg></span>
+      <span class="marca-texto"><span class="marca-nome">Sentinel</span><span class="marca-versao">SECURITY 3</span></span>
+    </a>
+    <div class="barra-acoes">
+      <button class="botao-emergencia" type="button" id="btnEmergencia" aria-haspopup="dialog">Emergência</button>
+      <div class="operador">
+        <span class="operador-avatar" id="userAvatar">OP</span>
+        <span class="operador-texto"><strong id="userName">Operador</strong><small id="userRole">Operador</small></span>
+      </div>
+      <button class="icone-botao sair" type="button" onclick="logoutSentinel()" title="Sair" aria-label="Sair do painel">
+        <svg class="ico"><use href="#i-sair"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="conteudo">
+    <!-- ===================== CABEÇALHO ===================== -->
+    <div class="cabecalho">
+      <div>
+        <p class="trilha">Residência / Visão geral</p>
+        <h1>Central de segurança</h1>
+        <p class="saudacao" id="saudacao">Carregando…</p>
+      </div>
+      <div class="cabecalho-status" role="status" aria-live="polite">
+        <span class="chip" id="chipServidor" data-estado="conectando" title="Conexão com o servidor"><i></i><span>Servidor</span><b id="txtServidor">conectando</b></span>
+        <span class="chip" id="chipIA" data-estado="local" title="Assistente"><i></i><span>Assistente</span><b id="txtIA">modo local</b></span>
+        <div class="risco-pill" id="chipRisco" data-nivel="baixo">
+          <span class="risco-ponto" aria-hidden="true"></span>
+          <span class="risco-texto"><strong id="riskLevel">Risco baixo</strong><small>Simulado · <span id="riskValue">10%</span></small></span>
+          <span class="risco-barra" id="medidor" style="--risco: 10" aria-hidden="true"><i></i></span>
+          <span class="visualmente-oculto" id="txtRiscoChip">10%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== PERÍMETRO + MONITORAMENTO ===================== -->
+    <div class="grade-principal">
+      <section class="bloco bloco-planta" id="planta" aria-labelledby="tPlanta">
+        <div class="bloco-cabeca">
+          <div>
+            <p class="bloco-numero">01 / Perímetro</p>
+            <h2 id="tPlanta">Mapas e sensores</h2>
+          </div>
+          <div class="zoom" role="group" aria-label="Zoom da planta">
+            <button type="button" data-zoom="-1" aria-label="Diminuir zoom">−</button>
+            <output id="zoomValor" aria-live="polite">100</output>
+            <button type="button" data-zoom="1" aria-label="Aumentar zoom">+</button>
+            <button type="button" data-zoom="0" aria-label="Restaurar zoom" title="Restaurar"><svg class="ico"><use href="#i-recarregar"/></svg></button>
+          </div>
+        </div>
+
+        <div class="planta-janela" id="plantaJanela">
+          <div class="planta" id="plantaPalco" style="--zoom: 1">
+            <svg class="planta-desenho" viewBox="0 0 600 340" aria-hidden="true">
+              <rect class="quintal" x="14" y="14" width="572" height="312" rx="22"/>
+              <g class="arvores"><rect x="34" y="88" width="26" height="54" rx="9"/><rect x="34" y="214" width="26" height="52" rx="9"/><rect x="546" y="96" width="26" height="54" rx="9"/></g>
+              <rect class="comodo" id="comodoEntrada" x="118" y="63" width="178" height="103"/>
+              <rect class="comodo" id="comodoSala" x="304" y="63" width="178" height="103"/>
+              <rect class="comodo" id="comodoCozinha" x="118" y="174" width="178" height="103"/>
+              <rect class="comodo" id="comodoQuarto" x="304" y="174" width="178" height="103"/>
+              <g class="movel">
+                <rect x="138" y="96" width="58" height="18" rx="4"/><circle cx="262" cy="96" r="12"/>
+                <rect x="330" y="100" width="122" height="38" rx="6"/>
+                <rect x="186" y="212" width="84" height="40" rx="6"/>
+                <ellipse cx="400" cy="232" rx="42" ry="28"/>
+              </g>
+              <path class="parede-int" d="M300 55V200M300 246V285M110 170H330M372 170H490"/>
+              <rect class="parede-ext" x="110" y="55" width="380" height="230" rx="24"/>
+              <rect class="porta-vao" x="168" y="47" width="50" height="16" rx="5"/>
+              <rect class="janela-vao" x="350" y="51" width="84" height="8" rx="2"/>
+              <g class="rotulos"><text x="128" y="80">Entrada</text><text x="314" y="80">Sala de estar</text><text x="128" y="191">Cozinha</text><text x="314" y="191">Quarto</text></g>
+            </svg>
+            <button class="disp disp-sensor" type="button" data-sensor="portaPrincipal" style="left:32.2%;top:16%" onclick="Painel.alternarSensor('portaPrincipal')"><i></i><span>Porta</span></button>
+            <button class="disp disp-sensor" type="button" data-sensor="janelaSala" style="left:65%;top:16%" onclick="Painel.alternarSensor('janelaSala')"><i></i><span>Janela</span></button>
+            <button class="disp disp-sensor" type="button" data-sensor="incendioDetectado" style="left:26%;top:62%" onclick="Painel.alternarSensor('incendioDetectado')"><i></i><span>Fumaça</span></button>
+            <button class="disp disp-sensor" type="button" data-sensor="gasDetectado" style="left:43%;top:78%" onclick="Painel.alternarSensor('gasDetectado')"><i></i><span>Gás</span></button>
+            <button class="disp disp-cam" type="button" style="left:40%;top:36%" onclick="Cameras.focarPorNome('Entrada')" aria-label="Câmera da entrada"><i><svg class="ico"><use href="#i-camera"/></svg></i><span>Entrada</span></button>
+            <button class="disp disp-cam" type="button" style="left:71%;top:41%" onclick="Cameras.focarPorNome('Sala')" aria-label="Câmera da sala de estar"><i><svg class="ico"><use href="#i-camera"/></svg></i><span>Sala de estar</span></button>
+            <button class="disp disp-cam" type="button" style="left:90%;top:70%" onclick="Cameras.focarPorNome('Quintal')" aria-label="Câmera do quintal"><i><svg class="ico"><use href="#i-camera"/></svg></i><span>Quintal</span></button>
+          </div>
+        </div>
+
+        <h3 class="sub-titulo">Sensores do perímetro</h3>
+        <ul class="sensores" id="listaSensores">
+          <li data-sensor="portaPrincipal"><button type="button" onclick="Painel.alternarSensor('portaPrincipal')"><span class="s-nome">Porta principal</span><span class="s-estado">Trancada</span></button></li>
+          <li data-sensor="janelaSala"><button type="button" onclick="Painel.alternarSensor('janelaSala')"><span class="s-nome">Janela da sala</span><span class="s-estado">Fechada</span></button></li>
+          <li data-sensor="incendioDetectado"><button type="button" onclick="Painel.alternarSensor('incendioDetectado')"><span class="s-nome">Sensor de fumaça</span><span class="s-estado">Normal</span></button></li>
+          <li data-sensor="gasDetectado"><button type="button" onclick="Painel.alternarSensor('gasDetectado')"><span class="s-nome">Sensor de gás GLP</span><span class="s-estado">Normal</span></button></li>
+        </ul>
+        <div class="planta-rodape">
+          <p id="riscoExplica">Portas e janelas fechadas, sensores sem alerta.</p>
+          <p>Último acesso: <strong id="lastAccess">nenhum ainda</strong></p>
+        </div>
+      </section>
+
+      <section class="bloco bloco-cameras" id="cameras" aria-labelledby="tCameras">
+        <div class="bloco-cabeca">
+          <div>
+            <p class="bloco-numero">02 / Monitoramento</p>
+            <h2 id="tCameras">Câmeras</h2>
+            <p class="bloco-sub" id="resumoCameras">Nenhuma câmera ligada</p>
+          </div>
+          <div class="ferramentas">
+            <div class="seg" role="group" aria-label="Layout das câmeras">
+              <button type="button" data-layout="1" title="Uma câmera">1</button>
+              <button type="button" data-layout="4" class="ativo" title="Grade 2×2">4</button>
+              <button type="button" data-layout="9" title="Grade 3×3">9</button>
+            </div>
+            <button class="icone-botao" type="button" id="btnConectarCelular" title="Conectar celular" aria-label="Conectar celular como câmera"><svg class="ico"><use href="#i-celular"/></svg></button>
+            <button class="botao botao-primario botao-pequeno" type="button" id="btnAdicionarCamera"><svg class="ico" aria-hidden="true"><use href="#i-mais"/></svg>Câmera</button>
+          </div>
+        </div>
+
+        <div class="parede-cameras" id="paredeCameras" data-layout="4">
+          <div class="parede-vazia" id="paredeVazia">
+            <button class="cam-vazia" type="button" data-abrir="adicionar" data-nome="Entrada principal">
+              <span class="cam-vazia-tela"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><use href="#ilu-casa"/></svg><span class="play" aria-hidden="true"><svg class="ico"><use href="#i-play"/></svg></span></span>
+              <span class="cam-vazia-rodape"><b>Entrada principal</b><small>Desligada · toque para ligar a webcam</small></span>
+            </button>
+            <button class="cam-vazia" type="button" data-abrir="adicionar" data-nome="Sala de estar">
+              <span class="cam-vazia-tela"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><use href="#ilu-sala"/></svg><span class="play" aria-hidden="true"><svg class="ico"><use href="#i-play"/></svg></span></span>
+              <span class="cam-vazia-rodape"><b>Sala de estar</b><small>Desligada · toque para ligar a webcam</small></span>
+            </button>
+            <button class="cam-vazia cam-vazia-larga" type="button" data-abrir="celular">
+              <span class="cam-vazia-tela"><svg viewBox="0 0 640 200" preserveAspectRatio="xMidYMid slice"><use href="#ilu-quintal"/></svg><span class="play" aria-hidden="true"><svg class="ico"><use href="#i-play"/></svg></span></span>
+              <span class="cam-vazia-rodape"><b>Quintal</b><small>Desligada · use um celular como câmera</small></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="capturas" id="capturas" hidden>
+          <div class="capturas-cabeca">
+            <h3>Fotos de movimento e capturas</h3>
+            <button class="link-botao" type="button" id="btnLimparCapturas">Limpar</button>
+          </div>
+          <ol class="capturas-lista" id="capturasLista"></ol>
+        </div>
+
+        <div class="atividade" id="eventos">
+          <div class="atividade-cabeca">
+            <h3>Atividade recente</h3>
+            <div class="atividade-ferr">
+              <button class="icone-botao icone-mini" type="button" onclick="Painel.verificarBackend()" title="Atualizar" aria-label="Atualizar atividade"><svg class="ico"><use href="#i-recarregar"/></svg></button>
+              <button class="icone-botao icone-mini" type="button" id="btnRecolherAtividade" aria-expanded="true" aria-controls="logFeed" title="Recolher" aria-label="Recolher atividade"><svg class="ico"><use href="#i-chevron"/></svg></button>
+            </div>
+          </div>
+          <ol class="linha-tempo" id="logFeed"></ol>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===================== ASSISTENTE ===================== -->
+    <section class="bloco assistente" id="assistente" aria-labelledby="tAssistente">
+      <button class="assistente-alca" type="button" id="btnFecharChat" aria-expanded="true" aria-controls="assistenteCorpo" title="Recolher assistente"><span class="visualmente-oculto">Recolher assistente</span></button>
+      <header class="assistente-cabeca">
+        <span class="assistente-icone" aria-hidden="true"><svg class="ico"><use href="#i-chat"/></svg></span>
+        <div>
+          <h2 id="tAssistente">Assistente Sentinel</h2>
+          <p>Seu apoio para sensores, risco e eventos · <span id="assistenteModo">modo local</span></p>
+        </div>
+        <div class="assistente-ferr">
+          <button class="icone-botao icone-mini" type="button" id="btnFalarRespostas" aria-pressed="false" title="Ler respostas em voz alta" aria-label="Ler respostas em voz alta">
+            <svg class="ico" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9zM16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/></svg>
+          </button>
+          <button class="icone-botao icone-mini" type="button" id="btnLimparChat" title="Nova conversa" aria-label="Começar nova conversa">
+            <svg class="ico" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>
+          </button>
+        </div>
+      </header>
+      <div class="assistente-corpo" id="assistenteCorpo">
+        <div class="chat" id="chatHistory" aria-live="polite"></div>
+        <div class="sugestoes" id="sugestoes">
+          <button type="button">Como está a casa?</button>
+          <button type="button">Quem entrou hoje?</button>
+          <button type="button">Tranque a porta</button>
+          <button type="button">Liga a IA em todas as câmeras</button>
+        </div>
+        <form class="chat-entrada" id="chatForm">
+          <label class="visualmente-oculto" for="chatInput">Mensagem para o assistente</label>
+          <textarea id="chatInput" rows="1" placeholder="Pergunte sobre a casa ou peça uma ação…" autocomplete="off"></textarea>
+          <button type="button" class="icone-botao icone-mini" id="btnVoz" title="Falar" aria-label="Falar com o assistente" hidden>
+            <svg class="ico" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+          </button>
+          <button type="submit" class="enviar" aria-label="Enviar mensagem"><svg class="ico"><use href="#i-enviar"/></svg></button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== ACESSO E LOCALIZAÇÃO ===================== -->
+    <div class="grade-acesso">
+      <section class="bloco" id="acesso" aria-labelledby="tMoradores">
+        <p class="bloco-numero">03 / Acesso</p>
+        <h2 id="tMoradores">Moradores</h2>
+        <p class="bloco-sub">Reconhecidos por qualquer câmera com a IA de rosto ligada.</p>
+        <ul class="moradores" id="listaResidentes"><li class="vazio">Carregando…</li></ul>
+      </section>
+
+      <section class="bloco" aria-labelledby="tTentativas">
+        <p class="bloco-numero">04 / Entradas</p>
+        <h2 id="tTentativas">Últimos acessos</h2>
+        <ol class="linha-tempo compacta" id="listaTentativas"><li class="vazio">Nenhum acesso registrado ainda.</li></ol>
+      </section>
+
+      <section class="bloco" id="localizacao" aria-labelledby="tLocal">
+        <p class="bloco-numero">05 / Localização</p>
+        <h2 id="tLocal">Onde está a central</h2>
+        <dl class="geo">
+          <div><dt>Latitude</dt><dd class="osd" id="geoLatitude">--</dd></div>
+          <div><dt>Longitude</dt><dd class="osd" id="geoLongitude">--</dd></div>
+          <div><dt>Precisão</dt><dd class="osd" id="geoPrecisao">--</dd></div>
+        </dl>
+        <p class="bloco-sub" id="geoStatus">Aguardando permissão do navegador…</p>
+        <a class="link-botao" id="geoMapLink" href="#" target="_blank" rel="noopener" hidden>Abrir no Google Maps</a>
+      </section>
+    </div>
+  </main>
+
+  <button class="abrir-assistente" id="btnAbrirChat" type="button" aria-controls="assistente">
+    <svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg>Assistente
+  </button>
+
+  <!-- Fundo escuro da visualização ampliada de uma câmera -->
+  <div class="fundo-camera" id="fundoCamera" hidden></div>
+
+  <!-- ===================== DIÁLOGOS ===================== -->
+  <dialog class="dialogo dialogo-emergencia" id="dlgEmergencia" aria-labelledby="tDlgEmerg">
+    <div class="dialogo-corpo">
+      <h2 id="tDlgEmerg">Acionar emergência</h2>
+      <p class="bloco-sub">Acima de 90% de risco o Sentinel aciona sozinho o serviço certo, com 5 segundos para cancelar. Nesta versão as chamadas são simuladas.</p>
+      <div class="emerg-botoes">
+        <button class="emerg" type="button" data-servico="POLICIA"><b>190</b>Polícia Militar</button>
+        <button class="emerg emerg-bombeiros" type="button" data-servico="BOMBEIROS"><b>193</b>Corpo de Bombeiros</button>
+      </div>
+      <button class="link-botao" type="button" id="btnSimularProcurado">Simular pessoa procurada na câmera</button>
+      <div class="dialogo-acoes">
+        <button class="botao botao-fantasma" type="button" onclick="this.closest('dialog').close()">Fechar</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="dialogo" id="dlgAdicionar">
+    <form method="dialog" class="dialogo-corpo" id="formAdicionar">
+      <h2>Ligar câmera deste computador</h2>
+      <p class="bloco-sub">O navegador vai pedir permissão para usar a câmera.</p>
+      <label class="campo-p">Dispositivo
+        <select id="selDispositivo"><option value="">Câmera padrão</option></select>
+      </label>
+      <label class="campo-p">Nome
+        <input id="inpNomeCamera" maxlength="40" placeholder="Ex.: Entrada principal, Sala de estar" required>
+      </label>
+      <label class="campo-p">Qualidade
+        <select id="selQualidade">
+          <option value="480">Econômica (480p)</option>
+          <option value="720" selected>HD (720p)</option>
+          <option value="1080">Full HD (1080p)</option>
+        </select>
+      </label>
+      <label class="check-p"><input type="checkbox" id="chkLembrar" checked> Religar esta câmera quando eu abrir o painel</label>
+      <p class="dialogo-erro" id="erroAdicionar" hidden></p>
+      <div class="dialogo-acoes">
+        <button class="botao botao-fantasma" value="cancelar" formnovalidate>Cancelar</button>
+        <button class="botao botao-primario" value="ok" id="btnConfirmarCamera">Ligar câmera</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="dialogo" id="dlgCelular">
+    <div class="dialogo-corpo">
+      <h2>Usar um celular como câmera</h2>
+      <ol class="passos-qr">
+        <li>Conecte o celular no mesmo Wi-Fi deste computador.</li>
+        <li>Aponte a câmera do celular para o código abaixo.</li>
+        <li>Dê um nome à câmera no celular e toque em “Começar a transmitir”.</li>
+      </ol>
+      <div class="qr" id="qrCelular" aria-label="QR Code com o endereço da página da câmera"></div>
+      <div class="qr-link">
+        <code id="urlCelular">carregando…</code>
+        <button class="botao botao-fantasma botao-pequeno" type="button" id="btnCopiarUrl">Copiar</button>
+      </div>
+      <p class="aviso-https" id="avisoHttps" hidden>
+        O celular só libera a câmera em páginas seguras (HTTPS). Coloque <code>HTTPS=true</code> no
+        <code>backend/.env</code> e reinicie o servidor. Na primeira vez, o celular vai mostrar um aviso de
+        certificado: toque em “Avançado” e “Continuar”.
+      </p>
+      <div class="dialogo-acoes">
+        <button class="botao botao-primario" type="button" onclick="this.closest('dialog').close()">Pronto</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="dialogo" id="dlgMorador">
+    <form method="dialog" class="dialogo-corpo" id="formMorador">
+      <h2>Memorizar rosto</h2>
+      <div class="previa-rosto"><canvas id="previaRosto" width="160" height="160"></canvas></div>
+      <label class="campo-p">Nome do morador
+        <input id="inpNomeMorador" maxlength="60" required>
+      </label>
+      <label class="campo-p">Crachá ou documento <span class="opcional">(opcional)</span>
+        <input id="inpDocMorador" maxlength="60">
+      </label>
+      <div class="dialogo-acoes">
+        <button class="botao botao-fantasma" value="cancelar" formnovalidate>Cancelar</button>
+        <button class="botao botao-primario" value="ok">Salvar morador</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="emergencia" id="emergencyModal" role="alertdialog" aria-modal="true" aria-labelledby="emergencyTitle" aria-describedby="emergencyBody" hidden>
+    <div class="emergencia-caixa">
+      <span class="emergencia-icone" aria-hidden="true">!</span>
+      <p class="emergencia-selo">Simulação acadêmica · nenhuma ligação real</p>
+      <h2 id="emergencyTitle">Alerta simulado · 190 (Polícia Militar)</h2>
+      <p id="emergencyBody">Motivo</p>
+      <p class="emergencia-contagem" id="emergencyTimer">00:05</p>
+      <span id="emergencyNumber" hidden>190</span>
+      <button class="botao botao-perigo" type="button" id="btnCancelarEmergencia">Cancelar acionamento</button>
+    </div>
+  </div>
+
+  <div class="avisos" id="avisos" aria-live="assertive"></div>
+
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script src="assistente.js"></script>
+  <script src="painel.js"></script>
+  <script src="cameras.js"></script>
+  <script src="chat.js"></script>
+</body>
+</html>
